@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-const PizzaBlock = ({ name, imageUrl, price, sizes }) => {
-  const types = ['тонкое', 'традиционное'];
-  const [activeType, setActiveType] = useState(0);
-  const [activeSize, setActiveSize] = useState(0);
+const PizzaBlock = ({ name, imageUrl, price, sizes, types }) => {
+  const availableTypes = ['тонкое', 'традиционное'];
+  const availableSize = [26, 30, 40];
+  const [activeType, setActiveType] = useState(types[0]);
+  const [activeSize, setActiveSize] = useState(sizes[0]);
 
   const onSelectType = (index) => {
     setActiveType(index);
@@ -19,24 +22,30 @@ const PizzaBlock = ({ name, imageUrl, price, sizes }) => {
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {types.map((type, index) => {
+          {availableTypes.map((type, index) => {
             return (
               <li
-                key={`${type}_${index}`}
-                className={activeType === index ? 'active' : ''}
-                onClick={() => onSelectType(index)}>
+                key={type}
+                onClick={() => onSelectType(index)}
+                className={classNames({
+                  active: activeType === index,
+                  disabled: !types.includes(index),
+                })}>
                 {type}
               </li>
             );
           })}
         </ul>
         <ul>
-          {sizes.map((size, i) => {
+          {availableSize.map((size, index) => {
             return (
               <li
-                key={`${size}_${i}`}
-                className={activeSize === i ? 'active' : ''}
-                onClick={onSelectSize(i)}>
+                key={size}
+                onClick={() => onSelectSize(index)}
+                className={classNames({
+                  active: activeSize === index,
+                  disabled: !sizes.includes(size),
+                })}>
                 {size} см.
               </li>
             );
@@ -63,6 +72,19 @@ const PizzaBlock = ({ name, imageUrl, price, sizes }) => {
       </div>
     </div>
   );
+};
+
+PizzaBlock.propTypes = {
+  name: PropTypes.string,
+  imageUrl: PropTypes.string,
+  price: PropTypes.number,
+  types: PropTypes.arrayOf(PropTypes.number),
+  sizes: PropTypes.arrayOf(PropTypes.number),
+};
+
+PizzaBlock.defaultProps = {
+  type: [],
+  sizes: [],
 };
 
 export default PizzaBlock;
