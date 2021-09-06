@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Button from '../Button';
 
-const PizzaBlock = ({ name, imageUrl, price, sizes, types }) => {
+const PizzaBlock = ({ id, name, imageUrl, price, sizes, types, onClickAddPizza }) => {
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSize = [26, 30, 40];
-  const [activeType, setActiveType] = useState(types[0]);
-  const [activeSize, setActiveSize] = useState(sizes[0]);
+
+  const [activeType, setActiveType] = React.useState(types[0]);
+  const [activeSize, setActiveSize] = React.useState(0);
 
   const onSelectType = (index) => {
     setActiveType(index);
@@ -14,6 +16,19 @@ const PizzaBlock = ({ name, imageUrl, price, sizes, types }) => {
 
   const onSelectSize = (index) => {
     setActiveSize(index);
+  };
+
+  const onAddPizza = () => {
+    debugger;
+    const pizzaData = {
+      id,
+      name,
+      imageUrl,
+      price,
+      size: activeSize,
+      type: activeType,
+    };
+    onClickAddPizza(pizzaData);
   };
 
   return (
@@ -54,7 +69,7 @@ const PizzaBlock = ({ name, imageUrl, price, sizes, types }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button className="button--add" onClick={onAddPizza} outline>
           <svg
             width="12"
             height="12"
@@ -68,7 +83,7 @@ const PizzaBlock = ({ name, imageUrl, price, sizes, types }) => {
           </svg>
           <span>Добавить</span>
           <i>2</i>
-        </div>
+        </Button>
       </div>
     </div>
   );
@@ -80,11 +95,14 @@ PizzaBlock.propTypes = {
   price: PropTypes.number,
   types: PropTypes.arrayOf(PropTypes.number),
   sizes: PropTypes.arrayOf(PropTypes.number),
+  isLoading: PropTypes.bool,
+  onClickAddPizza: PropTypes.func,
 };
 
 PizzaBlock.defaultProps = {
   type: [],
   sizes: [],
+  isLoading: false,
 };
 
 export default PizzaBlock;
