@@ -2,9 +2,10 @@ import React from 'react';
 import PropType from 'prop-types';
 import classNames from 'classnames';
 
-const Button = ({ outline, children, className }) => {
+const Button = ({ onClick, outline, children, className }) => {
   return (
     <button
+      onClick={onClick}
       className={classNames('button', className, {
         'button--outline': outline,
       })}>
