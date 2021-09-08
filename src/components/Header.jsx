@@ -6,7 +6,7 @@ import Button from './Button';
 import logo from '../assets/img/pizza-logo.svg';
 
 const Header = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { totalCount, totalPrice } = useSelector(({ cartReducers }) => cartReducers);
 
   return (
